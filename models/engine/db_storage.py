@@ -10,6 +10,8 @@ from models.place import Place
 from models.review import Review
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
+from models.base_model import Base
+import os
 
 
 class DBStorage():
@@ -18,12 +20,12 @@ class DBStorage():
 
     def __init__(self):
         self.__engine = 'mysql+mysqldb://{}:{}@localhost/{}'.format(
-                           environ.get("HBNB_MYSQL_USER"),
-                           environ.get("HBNB_MYSQL_PWD"),
-                           environ.get("HBNB_MYSQL_HOST"),
-                           environ.get("HBNB_MYSQL_DB"),
+                           os.environ.get("HBNB_MYSQL_USER"),
+                           os.environ.get("HBNB_MYSQL_PWD"),
+                           os.environ.get("HBNB_MYSQL_HOST"),
+                           os.environ.get("HBNB_MYSQL_DB"),
                            pool_pre_ping=True)
-        if (environ.get("HBNB_ENV") == "test"):
+        if (os.environ.get("HBNB_ENV") == "test"):
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
