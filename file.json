@@ -1,1 +1,1 @@
-{"User.93b06281-bd44-4015-bbe8-1fa0c298c691": {"id": "93b06281-bd44-4015-bbe8-1fa0c298c691", "created_at": "2018-06-14T09:45:52.369371", "updated_at": "2018-06-14T09:47:36.040444", "hello": "world", "__class__": "User"}}
+{"User.4539df02-dc2f-453c-8e6e-9316e136eaec": {"id": "4539df02-dc2f-453c-8e6e-9316e136eaec", "created_at": "2020-03-29T11:41:11.517654", "updated_at": "2020-03-29T11:41:11.517793", "name": "Paula", "apellido": "Fuentes", "edad": 30, "__class__": "User"}}
