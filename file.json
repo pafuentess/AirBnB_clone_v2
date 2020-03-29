@@ -1,1 +1,1 @@
-{"User.4539df02-dc2f-453c-8e6e-9316e136eaec": {"id": "4539df02-dc2f-453c-8e6e-9316e136eaec", "created_at": "2020-03-29T11:41:11.517654", "updated_at": "2020-03-29T11:41:11.517793", "name": "Paula", "apellido": "Fuentes", "edad": 30, "__class__": "User"}}
+{"State.d25b18d6-f2de-4ec4-a0d0-a0dc44d7dbfa": {"id": "d25b18d6-f2de-4ec4-a0d0-a0dc44d7dbfa", "created_at": "2020-03-29T13:22:33.016460", "updated_at": "2020-03-29T13:22:33.016460", "name": "Nevada", "__class__": "State"}}
