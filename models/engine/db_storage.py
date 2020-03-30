@@ -9,7 +9,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from models.base_model import Base
 import os
 
@@ -19,11 +19,12 @@ class DBStorage():
     __session = None
 
     def __init__(self):
-        self.__engine = 'mysql+mysqldb://{}:{}@localhost/{}'.format(
+
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
                            os.environ.get("HBNB_MYSQL_USER"),
                            os.environ.get("HBNB_MYSQL_PWD"),
                            os.environ.get("HBNB_MYSQL_HOST"),
-                           os.environ.get("HBNB_MYSQL_DB"),
+                           os.environ.get("HBNB_MYSQL_DB")), 
                            pool_pre_ping=True)
         if (os.environ.get("HBNB_ENV") == "test"):
             Base.metadata.drop_all(bind=self.__engine)
@@ -45,6 +46,7 @@ class DBStorage():
         Args:
             obj: given object
         """
+
         self.__session.add(obj)
         self.save()
 
@@ -61,9 +63,5 @@ class DBStorage():
     def reload(self):
         """serialize the file path to JSON file path
         """
-        Base.metadata.create_all(self.__engine)
+        Base.metadata.create_all(bind=self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
-
-
-
-

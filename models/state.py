@@ -16,5 +16,4 @@ class State(BaseModel, Base):
         name = Column(String(128), nullable=False)
         cities = relationship("City",  backref='state', cascade='delete')
     elif(environ.get("HBNB_TYPE_STORAGE") == "file"):
-        name = ""
-        
+        name = "" 
