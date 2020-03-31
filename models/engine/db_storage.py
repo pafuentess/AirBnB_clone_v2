@@ -41,8 +41,9 @@ class DBStorage():
                 lists[key] = row
         else:
             for rows in self.__engine.table_names():
+                print("Entro: ", rows)
                 for row in self.__session.query(rows):
-                    print("Entro: ", rows)
+                    print("Entro: ", row)
                     key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists
