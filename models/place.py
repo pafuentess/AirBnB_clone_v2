@@ -41,7 +41,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref='place', cascade='delete')
-        amenities = relationship("Amenity", secondary=place_amenity, back_populates="place_amenities", viewonly=False)
+        amenities = relationship("Amenity",  secondary=place_amenity, back_populates="place_amenities", viewonly=False)
     else:
         city_id = ""
         user_id = ""
@@ -71,6 +71,7 @@ class Place(BaseModel, Base):
             for key in amenity.values():
                 if key.place.id == self.id:
                     relation.append(key)
+            print("relation: ", relation)
             return relation
 
         @amenities.setter
