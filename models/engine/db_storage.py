@@ -24,21 +24,24 @@ class DBStorage():
                            os.environ.get("HBNB_MYSQL_USER"),
                            os.environ.get("HBNB_MYSQL_PWD"),
                            os.environ.get("HBNB_MYSQL_HOST"),
-                           os.environ.get("HBNB_MYSQL_DB")), 
+                           os.environ.get("HBNB_MYSQL_DB")),
                            pool_pre_ping=True)
         if (os.environ.get("HBNB_ENV") == "test"):
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        if cls:
-            rows = self.__session.query("SELECT * FROM {}".format(cls))
-        else:
-            rows = self.__session.query("SELECT * FROM User, State, City, Amenity, Place, Review")
-
         lists = {}
-        for key, item in rows.items():
-            if item.__class__ == cls:
-                lists[key] = item
+        if cls:
+            classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
+                       'Review': Review, 'State': State, 'User': User}
+            for row in self.__session.query("{}".format(classes[cls])):
+                key = "{}.{}".format(row.__class__.__name__, row.id)
+                lists[key] = row
+        else:
+            for row in self.__session.query(State, User, Amenity,
+                                            City, Place, Review):
+                key = "{}.{}".format(row.__class__.__name__, row.id)
+                lists[key] = row
         return lists
 
     def new(self, obj):
@@ -64,4 +67,5 @@ class DBStorage():
         """serialize the file path to JSON file path
         """
         Base.metadata.create_all(bind=self.__engine)
-        self.__session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
+        self.__session = scoped_session(sessionmaker(bind=self.__engine,
+                                                     expire_on_commit=False))
