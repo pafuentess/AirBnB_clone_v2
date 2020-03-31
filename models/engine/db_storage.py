@@ -11,6 +11,7 @@ from models.review import Review
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine, MetaData
 from models.base_model import Base
+from sqlalchemy.sql import exists
 import os
 
 
@@ -34,12 +35,12 @@ class DBStorage():
         if cls:
             classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
                        'Review': Review, 'State': State, 'User': User}
-            for row in self.__session.query("{}".format(classes[cls])):
+            for row in self.__session.query("{}".format(classes[cls])).exists():
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
             for row in self.__session.query(State, User, Amenity,
-                                            City, Place, Review):
+                                            City, Place, Review).exists():
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists
