@@ -15,11 +15,11 @@ class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
-
     if (getenv("HBNB_TYPE_STORAGE") == 'db'):
         id = Column(String(60), primary_key=True, nullable=False)
         created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
         updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
@@ -31,7 +31,7 @@ class BaseModel:
             created_at: creation date
             updated_at: updated date
         """
-        if kwargs:
+        if kwargs and getenv("HBNB_TYPE_STORAGE") != 'db':
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
