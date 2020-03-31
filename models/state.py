@@ -17,3 +17,11 @@ class State(BaseModel, Base):
         cities = relationship("City",  backref='state', cascade='delete')
     else:
         name = ""
+        @property
+        def cities(self):
+            city = models.storage.all(City)
+            relation = []
+            for key in city.values():
+                if key.states.id == self.id:
+                    relation.append(key)
+            return relation
