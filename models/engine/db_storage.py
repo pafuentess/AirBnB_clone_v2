@@ -33,14 +33,15 @@ class DBStorage():
     def all(self, cls=None):
         lists = {}
         if cls:
+            print("cls")
             classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
                        'Review': Review, 'State': State, 'User': User}
-            for row in self.__session.query("{}".format(classes[cls])).exists():
+            for row in self.__session.query("{}".format(classes[cls])):
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
             for row in self.__session.query(State, User, Amenity,
-                                            City, Place, Review).exists():
+                                            Place, Review, City):
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists

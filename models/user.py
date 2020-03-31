@@ -23,8 +23,8 @@ class User(BaseModel, Base):
         first_name = Column(String(128), nullable=False)
         last_name = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
-        places = relationship("Place",  backref='users', cascade='delete')
-
+        places = relationship("Place",  backref='user', cascade='delete')
+        reviews = relationship("Review", backref='user', cascade='delete')
     else:
         email = ""
         password = ""

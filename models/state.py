@@ -19,7 +19,7 @@ class State(BaseModel, Base):
         name = ""
         @property
         def cities(self):
-            city = models.storage.all(City)
+            city = models.storage.all('City')
             relation = []
             for key in city.values():
                 if key.states.id == self.id:
