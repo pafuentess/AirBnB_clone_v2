@@ -32,18 +32,15 @@ class DBStorage():
     def all(self, cls=None):
         lists = {}
         if cls:
-            print("cls")
             classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
                        'Review': Review, 'State': State, 'User': User}
-            for row in self.__session.query("{}".format(classes[cls])):
+            for row in self.__session.query(classes[cls]):
                 del row.__dict__['_sa_instance_state']
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
             for rows in self.__engine.table_names():
-                print("Entro: ", rows)
                 for row in self.__session.query(rows):
-                    print("Entro: ", row)
                     key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists
@@ -71,5 +68,6 @@ class DBStorage():
         """serialize the file path to JSON file path
         """
         Base.metadata.create_all(bind=self.__engine)
-        self.__session = scoped_session(sessionmaker(bind=self.__engine,
+        Session = scoped_session(sessionmaker(bind=self.__engine,
                                                      expire_on_commit=False))
+        self.__session = Session()
