@@ -11,7 +11,6 @@ from models.review import Review
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine, MetaData
 from models.base_model import Base
-from sqlalchemy.sql import exists
 import os
 
 
@@ -27,7 +26,7 @@ class DBStorage():
                            os.environ.get("HBNB_MYSQL_HOST"),
                            os.environ.get("HBNB_MYSQL_DB")),
                            pool_pre_ping=True)
-        if (os.environ.get("HBNB_ENV") == "test"):
+        if (os.environ.get("HBNB_MYSQL_USER") == "test"):
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
@@ -37,12 +36,14 @@ class DBStorage():
             classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
                        'Review': Review, 'State': State, 'User': User}
             for row in self.__session.query("{}".format(classes[cls])):
+                del row.__dict__['_sa_instance_state']
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
-            for row in self.__session.query(State, User, Amenity,
-                                            Place, Review, City):
-                key = "{}.{}".format(row.__class__.__name__, row.id)
+            for rows in self.__engine.table_names():
+                for row in self.__session.query(rows):
+                    print("Entro: ", rows)
+                    key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists
 

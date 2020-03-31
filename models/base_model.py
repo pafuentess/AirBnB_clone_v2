@@ -62,7 +62,7 @@ class BaseModel:
         """
         Public method that deletes an instance based on the class
         """
-        models.storage.delete(self)
+        models.FileStorage.delete(self)
 
     def to_dict(self):
         """creates dictionary of the class  and returns
