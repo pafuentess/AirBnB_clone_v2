@@ -57,7 +57,7 @@ class Place(BaseModel, Base):
 
         @property
         def reviews(self):
-            review = models.storage.all('Review')
+            review = models.storage.all(Review)
             relation = []
             for key in review.values():
                 if key.place.id == self.id:
@@ -66,7 +66,7 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            amenity = models.storage.all('Amenity')
+            amenity = models.storage.all(Amenity)
             relation = []
             for key in amenity.values():
                 if key.place.id == self.id:

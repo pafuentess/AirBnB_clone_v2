@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from os import environ
+from models.city import City
 
 
 class State(BaseModel, Base):
@@ -21,7 +22,7 @@ class State(BaseModel, Base):
         name = ""
         @property
         def cities(self):
-            city = models.storage.all('City')
+            city = models.storage.all(City)
             relation = []
             for key in city.values():
                 if key.states.id == self.id:
