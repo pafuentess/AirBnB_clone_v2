@@ -71,7 +71,6 @@ class Place(BaseModel, Base):
             for key in amenity.values():
                 if key.place.id == self.id:
                     relation.append(key)
-            print("relation: ", relation)
             return relation
 
         @amenities.setter
