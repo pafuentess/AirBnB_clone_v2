@@ -11,7 +11,6 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from shlex import split
-from os import environ
 
 
 class HBNBCommand(cmd.Cmd):
@@ -123,23 +122,9 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             NameError: when there is no object taht has the name
         """
-        #if (environ.get("HBNB_TYPE_STORAGE") == "db"):
-        #    if not line:
-        #        objects = storage.all()
-        #        print(objects)
-        #        return
-        #    try:
-        #        args = line.split(" ")
-        #        if args[0] not in self.all_classes:
-        #            raise NameError()
-        #        objects = storage.all(args[0])
-        #        print(objects)
-        #    except NameError:
-        #        print("** class doesn't exist **")
-        #elif (environ.get("HBNB_TYPE_STORAGE") == "file"):
+        objects = storage.all()
         my_list = []
         if not line:
-            objects = storage.all()
             for key in objects:
                 my_list.append(objects[key])
             print(my_list)
@@ -148,9 +133,10 @@ class HBNBCommand(cmd.Cmd):
             args = line.split(" ")
             if args[0] not in self.all_classes:
                 raise NameError()
-            objects = storage.all(args[0])
             for key in objects:
-                my_list.append(objects[key])
+                name = key.split('.')
+                if name[0] == args[0]:
+                    my_list.append(objects[key])
             print(my_list)
         except NameError:
             print("** class doesn't exist **")
