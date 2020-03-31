@@ -31,16 +31,16 @@ class DBStorage():
 
     def all(self, cls=None):
         lists = {}
-        if cls:
-            classes = {'Amenity': Amenity, 'City': City, 'Place': Place,
+        classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
                        'Review': Review, 'State': State, 'User': User}
+        if cls:
             for row in self.__session.query(classes[cls]):
                 del row.__dict__['_sa_instance_state']
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
-            for rows in self.__engine.table_names():
-                for row in self.__session.query(rows):
+            for rows in classes:
+                for row in self.__session.query(classes[rows]):
                     key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         return lists
