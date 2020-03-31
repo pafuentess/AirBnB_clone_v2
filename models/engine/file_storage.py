@@ -38,7 +38,6 @@ class FileStorage:
             for key, items in self.__objects.items():
                 if items.__class__ == cls:
                     lists[key] = items
-            #print(lists)
             return (lists)
         else:
             return self.__objects
