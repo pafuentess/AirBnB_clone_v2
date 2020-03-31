@@ -30,15 +30,16 @@ class DBStorage():
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        if cls:
-            rows = self.__session.query("SELECT * FROM {}".format(cls))
-        else:
-            rows = self.__session.query("SELECT * FROM User, State, City, Amenity, Place, Review")
-
         lists = {}
-        for key, item in rows.items():
-            if item.__class__ == cls:
-                lists[key] = item
+        if cls:
+            classes = {'State':'states', 'City':'cities'}
+            for row in self.__session.query("{}".format[]):
+                key = "{}.{}".format(row.__class__.__name__, row.id)
+                lists[key] = row
+        else:
+            for row in self.__session.query(State, User, Amenity, City, Place, Review):
+                key = "{}.{}".format(row.__class__.__name__, row.id)
+                lists[key] = row
         return lists
 
     def new(self, obj):
