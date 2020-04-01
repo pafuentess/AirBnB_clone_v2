@@ -54,10 +54,10 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            amenity = models.storage.all(Amenity)
+            amenity = models.storage.all()
             relation = []
-            for key in amenity.values():
-                if key.place.id == self.id:
+            for key in amenity:
+                if key.place.id == self.id and obj.__class.__.__name__=='Amenity':
                     relation.append(key)
             return relation
 
