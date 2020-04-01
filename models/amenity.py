@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the amenity class"""
 from models.base_model import BaseModel, Base
-from models.place import place_amenity
+from models.place import Place
 from sqlalchemy import ForeignKey
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
@@ -18,6 +18,6 @@ class Amenity(BaseModel, Base):
 
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
         name = Column(String(128), nullable=False)
-        place_amenities = relationship("Place", secondary=place_amenity)
+        place_amenities = relationship("Place", secondary=Place.place_amenity)
     else:
         name = ""
