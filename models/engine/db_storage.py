@@ -35,7 +35,6 @@ class DBStorage():
                    'Review': Review, 'State': State, 'User': User}
         if cls:
             for row in self.__session.query(classes[cls]):
-                del row.__dict__['_sa_instance_state']
                 key = "{}.{}".format(row.__class__.__name__, row.id)
                 lists[key] = row
         else:
