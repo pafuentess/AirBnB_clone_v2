@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """This is the amenity class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
-from sqlalchemy.orm import relationship
 from models.place import Place
+from sqlalchemy import ForeignKey
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+import os
 
 
 class Amenity(BaseModel, Base):
@@ -11,6 +13,7 @@ class Amenity(BaseModel, Base):
     Attributes:
         name: input name
     """
+
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-    place_amenities = relationship('Place', secondary=Place.place_amenity)
+    place_amenities = relationship("Place", secondary=Place.place_amenity)
