@@ -32,7 +32,7 @@ class DBStorage():
     def all(self, cls=None):
         lists = {}
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
-                       'Review': Review, 'State': State, 'User': User}
+                   'Review': Review, 'State': State, 'User': User}
         if cls:
             for row in self.__session.query(classes[cls]):
                 del row.__dict__['_sa_instance_state']
@@ -69,5 +69,5 @@ class DBStorage():
         """
         Base.metadata.create_all(bind=self.__engine)
         Session = scoped_session(sessionmaker(bind=self.__engine,
-                                                     expire_on_commit=False))
+                                 expire_on_commit=False))
         self.__session = Session()
