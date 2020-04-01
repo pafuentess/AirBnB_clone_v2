@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
+from sqlalchemy import ForeignKey, Table
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
 import os
 
@@ -21,13 +22,14 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+
     __tablename__ = "places"
-    metadata = Base.metadata
-    place_amenity = Table('place_amenity', metadata,
-                     Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-                     Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
-    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'), nullable=False, primary_key=True),
+                      Column('amenity_id', String(60), ForeignKey('amenities.id'), nullable=False, primary_key=True))
+        
+    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
+    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024), nullable=True)
     number_rooms = Column(Integer, default=0, nullable=False)
@@ -37,37 +39,40 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship('Review', cascade='all, delete', backref='place')
-        amenities = relationship('Amenity', secondary=place_amenity, viewonly=False, back_populates='place_amenities')    
+        reviews = relationship("Review", backref='place', cascade='delete')
+        amenities = relationship("Amenity",  secondary=place_amenity, back_populates="place_amenities", viewonly=False)
     else:
+        city_id = ""
+        user_id = ""
+        name = ""
+        description = ""
+        number_rooms = 0
+        number_bathrooms = 0
+        max_guest = 0
+        price_by_night = 0
+        latitude = 0.0
+        longitude = 0.0
+        amenity_ids = []
+
         @property
         def reviews(self):
-            """
-            reviews
-            """
-            objects = storage.all()
-            my_reviews = []
-            for obj in objects:
-                if obj.place_id == self.id and obj.__class__.__name__ == 'Review':
-                    my_reviews.append(obj)
-            return (my_reviews)
+            review = models.storage.all(Review)
+            relation = []
+            for key in review.values():
+                if key.place.id == self.id:
+                    relation.append(key)
+            return relation
 
         @property
         def amenities(self):
-            """
-            amenities
-            """
-            objects = storage.all()
-            my_amenities = []
-            for obj in objects:
-                if obj.place_id == self.id and obj.__class__.__name__ == 'Amenity':
-                    my_amenities.append(obj)
-            return (my_amenities)
+            amenity = models.storage.all(Amenity)
+            relation = []
+            for key in amenity.values():
+                if key.place.id == self.id:
+                    relation.append(key)
+            return relation
 
-            @amenities.setter
-            def amenities(self, obj):
-                """
-                amenities
-                """
-                if obj.__class__.__class__ == 'Amenity':
-                    amenity_id.append(amenities.id)
+        @amenities.setter
+        def amenities(self, value):
+            if value.__class__.__class__ == 'Amenity':
+                    amenity_ids.append(amenities.id)
