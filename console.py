@@ -42,11 +42,16 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
-            obj = eval("{}()".format(my_list[0]))
+            my_dict = {}
+            dict_class = eval("{}.__dict__".format(my_list[0]))
             for i in range(1, len(my_list)):
-                aux = my_list[i].split("=")
-                value = self.data_type(aux[1])
-                setattr(obj, aux[0], value)
+                temp = my_list[i].split("=")
+                value = temp[1].replace("_", " ")
+                my_dict[temp[0]] = value
+            obj = eval("{}()".format(my_list[0]))
+            for k, v in my_dict.items():
+                if getattr(obj, k, 'nonexistent') != 'nonexistent':
+                    setattr(obj, k, eval(v))
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
