@@ -85,7 +85,6 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("create asdfsfsd")
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
-        
         with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create User")
 
@@ -236,6 +235,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("User.update(" + my_id + ", name)")
             self.assertEqual(
                 "** value missing **\n", f.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()
