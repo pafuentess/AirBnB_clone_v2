@@ -82,8 +82,16 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("create asdfsfsd")
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("create User")
+        if os.getenv("HBNB_TYPE_STORAGE") != "db":
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd("create User")
+        if os.getenv("HBNB_TYPE_STORAGE") == "db":
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd("create User \
+                        first_name='paula' \
+                        last_name='fuentes' \
+                        password='123456' \
+                        email='la republica de pauli'")
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
             self.assertEqual(

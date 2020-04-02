@@ -36,7 +36,7 @@ class FileStorage:
         if cls:
             lists = {}
             for key, items in self.__objects.items():
-                if items.__class__ == cls:
+                if items.__class__.__name__ == cls:
                     lists[key] = items
             return (lists)
         else:
