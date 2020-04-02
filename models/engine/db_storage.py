@@ -15,6 +15,7 @@ import os
 
 
 class DBStorage():
+    """manager of mysql database"""
     __engine = None
     __session = None
 
@@ -30,6 +31,7 @@ class DBStorage():
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
+        """ doc """
         lists = {}
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
                    'Review': Review, 'State': State, 'User': User}
@@ -59,6 +61,7 @@ class DBStorage():
         self.__session.commit()
 
     def delete(self, obj=None):
+        """ doc """
         if obj:
             self.__session.delete(obj)
             self.save()
