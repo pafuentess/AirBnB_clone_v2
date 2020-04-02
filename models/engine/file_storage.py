@@ -34,13 +34,16 @@ class FileStorage:
             returns a dictionary of __object
         """
         if cls:
-            lists = {}
-            for key, items in self.__objects.items():
-                if items.__class__.__name__ == cls:
-                    lists[key] = items
-            return (lists)
-        else:
-            return self.__objects
+            class_dict = {}
+            for key, value in self.__objects.items():
+                if type(cls) is str:
+                    if cls == value.__class__.__name__:
+                        class_dict[key] = value
+                else:
+                    if cls == value.__class__:
+                        class_dict[key] = value
+            return class_dict
+        return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
