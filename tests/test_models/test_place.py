@@ -48,6 +48,10 @@ class TestPlace(unittest.TestCase):
         """checking for docstrings"""
         self.assertIsNotNone(Place.__doc__)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORGE") == "db",
+                     "dont work in db")
+
+
     def test_attributes_Place(self):
         """chekcing if amenity have attributes"""
         self.assertTrue('id' in self.place.__dict__)

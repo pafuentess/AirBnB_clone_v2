@@ -5,6 +5,7 @@ from sqlalchemy import ForeignKey, Table
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
 import os
+import models
 
 
 class Place(BaseModel, Base):

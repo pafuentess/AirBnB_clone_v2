@@ -55,6 +55,9 @@ class TestUser(unittest.TestCase):
         """test if User is subclass of Basemodel"""
         self.assertTrue(issubclass(self.user.__class__, BaseModel), True)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORGE") == "db",
+                     "dont work in db")
+
     def test_attribute_types_User(self):
         """test attribute type for User"""
         self.assertEqual(type(self.user.email), str)

@@ -52,6 +52,9 @@ class TestReview(unittest.TestCase):
     def test_is_subclass_Review(self):
         """test if review is subclass of BaseModel"""
         self.assertTrue(issubclass(self.rev.__class__, BaseModel), True)
+    
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORGE") == "db",
+                     "dont work in db")
 
     def test_attribute_types_Review(self):
         """test attribute type for Review"""

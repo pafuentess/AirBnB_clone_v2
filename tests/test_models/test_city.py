@@ -51,6 +51,9 @@ class TestCity(unittest.TestCase):
         """test if City is subclass of Basemodel"""
         self.assertTrue(issubclass(self.city.__class__, BaseModel), True)
 
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == "db",
+                     "dont work in DB")
+
     def test_attribute_types_City(self):
         """test attribute type for City"""
         self.assertEqual(type(self.city.name), str)

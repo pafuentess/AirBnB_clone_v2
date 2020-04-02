@@ -38,6 +38,9 @@ class TestState(unittest.TestCase):
         """checking for docstrings"""
         self.assertIsNotNone(State.__doc__)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORGE") == "db",
+                     "dont work in db")
+
     def test_attributes_State(self):
         """chekcing if State have attributes"""
         self.assertTrue('id' in self.state.__dict__)
