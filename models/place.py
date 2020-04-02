@@ -25,9 +25,13 @@ class Place(BaseModel, Base):
 
     __tablename__ = "places"
     place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60), ForeignKey('places.id'), nullable=False, primary_key=True),
-                      Column('amenity_id', String(60), ForeignKey('amenities.id'), nullable=False, primary_key=True))
-        
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'), nullable=False,
+                                 primary_key=True),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 nullable=False, primary_key=True))
+
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
@@ -40,8 +44,11 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship("Review", backref='place', cascade='all, delete')
-        amenities = relationship("Amenity",  secondary=place_amenity, back_populates="place_amenities", viewonly=False)
+        reviews = relationship("Review", backref='place',
+                               cascade='all, delete')
+        amenities = relationship("Amenity",  secondary=place_amenity,
+                                 back_populates="place_amenities",
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -57,7 +64,8 @@ class Place(BaseModel, Base):
             amenity = models.storage.all()
             relation = []
             for key in amenity:
-                if key.place.id == self.id and obj.__class.__.__name__=='Amenity':
+                if key.place.id == self.id and
+                obj.__class.__.__name__ == 'Amenity':
                     relation.append(key)
             return relation
 
