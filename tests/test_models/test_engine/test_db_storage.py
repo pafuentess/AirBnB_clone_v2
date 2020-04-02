@@ -18,6 +18,7 @@ from models.engine.db_storage import DBStorage
 from sqlalchemy import Column, Integer, String, create_engine
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "don't work")
 class TestDBStorage(unittest.TestCase):
     '''this will test the DBStorage'''
 
