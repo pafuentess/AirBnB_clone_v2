@@ -253,6 +253,7 @@ class HBNBCommand(cmd.Cmd):
             cmd.Cmd.default(self, line)
 
     def data_type(self, value):
+        """ return the data type"""
         if value[0] == '\"':
             value = value.replace("\"", "")
             value = value.replace("_", " ")
