@@ -20,6 +20,7 @@ class State(BaseModel, Base):
         cities = relationship("City",  backref='state', cascade='delete')
     else:
         name = ""
+
         @property
         def cities(self):
             city = models.storage.all(City)
