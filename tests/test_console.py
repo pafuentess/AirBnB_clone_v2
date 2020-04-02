@@ -19,6 +19,9 @@ from models.review import Review
 from models.engine.file_storage import FileStorage
 
 
+@unittest.skipIf(
+        os.getenv('HBNB_TYPE_STORAGE') == 'db',
+        "This test only work in Filestorage")
 class TestConsole(unittest.TestCase):
     """this will test the console"""
 
@@ -82,16 +85,10 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("create asdfsfsd")
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
-        if os.getenv("HBNB_TYPE_STORAGE") != "db":
-            with patch('sys.stdout', new=StringIO()) as f:
+        
+        with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create User")
-        if os.getenv("HBNB_TYPE_STORAGE") == "db":
-            with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd("create User \
-                        first_name='paula' \
-                        last_name='fuentes' \
-                        password='123456' \
-                        email='la republica de pauli'")
+
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
             self.assertEqual(
