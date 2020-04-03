@@ -86,10 +86,12 @@ class TestConsole(unittest.TestCase):
                 self.consol.onecmd("create User")
 
         @unittest.skipIf(
-                         with patch('sys.stdout', new=StringIO()) as f:
-                         self.consol.onecmd("all User")
-                         self.assertEqual(
-                                          "[[User]", f.getvalue()[:7]))
+                         os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                         "This test only work in Filestorage")
+        with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd("all User")
+                self.assertEqual("[[User]", f.getvalue()[:7])
+
     def test_show(self):
         """Test show command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
