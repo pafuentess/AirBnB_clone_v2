@@ -71,7 +71,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
-
+    
     def test_create(self):
         """Test create command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -83,11 +83,11 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd("create User")
-
+            self.consol.onecmd("create User")
         with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd("all User")
-                self.assertEqual("[[User]", f.getvalue()[:7])
+            self.consol.onecmd("all User")
+            self.assertEqual(
+                "[[User]", f.getvalue()[:7])
 
     def test_show(self):
         """Test show command inpout"""
