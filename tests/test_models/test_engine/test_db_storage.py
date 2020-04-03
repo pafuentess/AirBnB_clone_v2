@@ -23,26 +23,10 @@ import models
 class TestDBStorage(unittest.TestCase):
     '''this will test the DBStorage'''
 
-    @classmethod
-    def setUpClass(cls):
-        """Tests"""
-        cls.user = User()
-        cls.user.first_name = "Kev"
-        cls.user.last_name = "Yo"
-        cls.user.email = "1234@yahoo.com"
-        cls.storage = FileStorage()
-
-    @classmethod
     def teardown(cls):
         """at the end of the test this will tear it down"""
-        del cls.user
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
+        self.session.close()
+        sel.session.rollback()
 
     def test_pep8_DBStorage(self):
         """Tests pep8 style"""
@@ -135,15 +119,6 @@ class TestDBStorage(unittest.TestCase):
         review = Review(text="cool")
         if review.id in models.storage.all():
             self.asserTrue(review.text, "cool")
-
-
-
-
-
-
-
-    
-
 
 
 if __name__ == "__main__":
