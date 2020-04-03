@@ -14,6 +14,7 @@ from models.review import Review
 from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 import MySQLdb
+import models
 
 
 @unittest.skipIf(
@@ -95,6 +96,54 @@ class TestDBStorage(unittest.TestCase):
                 for line in r:
                     self.assertEqual(line, "{}")
             self.assertIs(self.storage.reload(), None)
+
+    def _State(self):
+        """doc"""
+        state = State(name="Arizona")
+        if state.id in models.storage.all():
+            self.asserTrue(state.name, "Arizona")
+
+    def _City(self):
+        """doc"""
+        city = City(name="medellin")
+        if state.id in models.storage.all():
+            self.asserTrue(city.name, "medellin")
+
+    def _User(self):
+        """doc"""
+        user = User(name="paula", email="1@hal")
+        if users.id in models.storage.all():
+            self.asserTrue(user.name, "paula")
+            self.asserTrue(user.email, "1@hal")
+
+    def _Place(self):
+        """doc"""
+        place = Place(name="tintin", number_rooms=1, number_bathrooms=2)
+        if place.id in models.storage.all():
+            self.asserTrue(place.name, "tintin")
+            self.asserTrue(place.number_rooms, "1")
+            self.asserTrue(place.number_bathrooms, "2")
+
+    def _Amenity(self):
+        """doc"""
+        amenity = Amenity(name="billar")
+        if amenity.id in models.storage.all():
+            self.asserTrue(amenity.name, "billar")
+
+    def _Review(self):
+        """doc"""
+        review = Review(text="cool")
+        if review.id in models.storage.all():
+            self.asserTrue(review.text, "cool")
+
+
+
+
+
+
+
+    
+
 
 
 if __name__ == "__main__":
