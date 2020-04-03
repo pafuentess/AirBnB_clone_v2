@@ -14,7 +14,6 @@ from models.review import Review
 from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 import MySQLdb
-import models
 
 
 @unittest.skipIf(
@@ -23,10 +22,26 @@ import models
 class TestDBStorage(unittest.TestCase):
     '''this will test the DBStorage'''
 
+    @classmethod
+    def setUpClass(cls):
+        """Tests"""
+        cls.user = User()
+        cls.user.first_name = "Kev"
+        cls.user.last_name = "Yo"
+        cls.user.email = "1234@yahoo.com"
+        cls.storage = FileStorage()
+
+    @classmethod
     def teardown(cls):
         """at the end of the test this will tear it down"""
-        self.session.close()
-        sel.session.rollback()
+        del cls.user
+
+    def tearDown(self):
+        """teardown"""
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
 
     def test_pep8_DBStorage(self):
         """Tests pep8 style"""
@@ -43,82 +58,43 @@ class TestDBStorage(unittest.TestCase):
         self.assertIs(obj, storage._FileStorage__objects)
 
     def test_new(self):
-            """test when new is created"""
-            storage = FileStorage()
-            obj = storage.all()
-            user = User()
-            user.id = 123455
-            user.name = "Kevin"
-            storage.new(user)
-            key = user.__class__.__name__ + "." + str(user.id)
-            self.assertIsNotNone(obj[key])
+        """test when new is created"""
+        storage = FileStorage()
+        obj = storage.all()
+        user = User()
+        user.id = 123455
+        user.name = "Kevin"
+        storage.new(user)
+        key = user.__class__.__name__ + "." + str(user.id)
+        self.assertIsNotNone(obj[key])
 
     def test_reload_dbtorage(self):
-            """
-            tests reload
-            """
-            self.storage.save()
-            Root = os.path.dirname(os.path.abspath("console.py"))
-            path = os.path.join(Root, "file.json")
-            with open(path, 'r') as f:
-                lines = f.readlines()
-            try:
-                os.remove(path)
-            except Exception:
-                pass
-            self.storage.save()
-            with open(path, 'r') as f:
-                lines2 = f.readlines()
-            self.assertEqual(lines, lines2)
-            try:
-                os.remove(path)
-            except Exception:
-                pass
-            with open(path, "w") as f:
-                f.write("{}")
-            with open(path, "r") as r:
-                for line in r:
-                    self.assertEqual(line, "{}")
-            self.assertIs(self.storage.reload(), None)
-
-    def _State(self):
-        """doc"""
-        state = State(name="Arizona")
-        if state.id in models.storage.all():
-            self.asserTrue(state.name, "Arizona")
-
-    def _City(self):
-        """doc"""
-        city = City(name="medellin")
-        if state.id in models.storage.all():
-            self.asserTrue(city.name, "medellin")
-
-    def _User(self):
-        """doc"""
-        user = User(name="paula", email="1@hal")
-        if users.id in models.storage.all():
-            self.asserTrue(user.name, "paula")
-            self.asserTrue(user.email, "1@hal")
-
-    def _Place(self):
-        """doc"""
-        place = Place(name="tintin", number_rooms=1, number_bathrooms=2)
-        if place.id in models.storage.all():
-            self.asserTrue(place.name, "tintin")
-            self.asserTrue(place.number_rooms, "1")
-            self.asserTrue(place.number_bathrooms, "2")
-
-    def _Amenity(self):
-        """doc"""
-        amenity = Amenity(name="billar")
-        if amenity.id in models.storage.all():
-            self.asserTrue(amenity.name, "billar")
-
-    def _Review(self):
-        """doc"""
-        review = Review(text="cool")
-        if review.id in models.storage.all():
-            self.asserTrue(review.text, "cool")
+        """
+        tests reload
+        """
+        self.storage.save()
+        Root = os.path.dirname(os.path.abspath("console.py"))
+        path = os.path.join(Root, "file.json")
+        with open(path, 'r') as f:
+            lines = f.readlines()
+        try:
+            os.remove(path)
+        except Exception:
+            pass
+        self.storage.save()
+        with open(path, 'r') as f:
+            lines2 = f.readlines()
+        self.assertEqual(lines, lines2)
+        try:
+            os.remove(path)
+        except Exception:
+            pass
+        with open(path, "w") as f:
+            f.write("{}")
+        with open(path, "r") as r:
+            for line in r:
+                self.assertEqual(line, "{}")
+        self.assertIs(self.storage.reload(), None)
 
 
 if __name__ == "__main__":
