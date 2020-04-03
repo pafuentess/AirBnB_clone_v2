@@ -85,9 +85,6 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create User")
 
-        @unittest.skipIf(
-                         os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                         "This test only work in Filestorage")
         with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("all User")
                 self.assertEqual("[[User]", f.getvalue()[:7])
