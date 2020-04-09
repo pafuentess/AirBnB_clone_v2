@@ -11,9 +11,9 @@ echo "<html>
   <body>
     Holberton School
   </body>
-</html>" >> /data/web_static/releases/test/index.html
+</html>" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/ /data/web_static/current
-chown -R ubuntu:ubuntu /data
+chown -R ubuntu:ubuntu /data/
 sed -i '53i \\tlocation \/hbnb_static {\n\t\t alias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
 service nginx restart
 
