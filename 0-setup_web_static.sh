@@ -11,6 +11,6 @@ mkdir /data/web_static/releases/test/
 echo -e "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
-sed -i '42i \\tlocation \/hbnb_static {\n\t\t alias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
+sed -i '42i \\tlocation \/hbnb_static {\n\t\t alias /data/web_static/current;\n\t\n}' /etc/nginx/sites-available/default
 sudo service nginx restart
 
