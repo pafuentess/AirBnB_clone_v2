@@ -13,9 +13,7 @@ def do_deploy(archive_path):
     """
         using fabric to distribute archive
     """
-    try:
-        stat(archive_path)
-    except:
+    if os.path.isfile(archive_path) is False:
         return False
     try:
         name = archive_path.split("/")
