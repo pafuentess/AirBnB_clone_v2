@@ -6,10 +6,12 @@ from models import storage
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def teardown_context(self):
     """ doc """
     storage.close()
+
 
 @app.route('/states_list', strict_slashes=False)
 def states_list():
