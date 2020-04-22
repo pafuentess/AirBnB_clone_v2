@@ -23,9 +23,10 @@ def state_list(id=None):
     states = storage.all("State")
     cities = storage.all("City").values()
     if id is not None:
-        id = "State."+ id
+        id = "State." + id
     return render_template("9-states.html",
                            states=states, cities=cities, id=id)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
