@@ -51,8 +51,8 @@ button:hover {
     width: 25%;
 }
 .popover {
-    max-height: 300px;
-    overflow: scroll;
+    height: 300px;
+    overflow-y: scroll;
     visibility: hidden;
     width: 100%;
     border: 1px solid #DDDDDD;
