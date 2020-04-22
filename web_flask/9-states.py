@@ -17,32 +17,15 @@ def handle_teardown(self):
 
 
 @app.route('/states', strict_slashes=False)
-def state_list():
-    """
-        method to render states
-    """
-    states = storage.all('State').values()
-    return render_template(
-        "9-states.html",
-        states=states,
-        condition="states_list")
-
-
 @app.route('/states/<id>', strict_slashes=False)
-def states_id(id):
-    """
-        method to render state ids
-    """
-    state_all = storage.all('State')
-    try:
-        state_id = state_all[id]
-        return render_template(
-            '9-states.html',
-            state_id=state_id,
-            condition="state_id")
-    except:
-        return render_template('9-states.html', condition="not_found")
-
+def state_list(id=None):
+    """ doc """
+    states = storage.all("State")
+    cities = storage.all("City").values()
+    if id is not None:
+        id = "State."+ id
+    return render_template("9-states.html",
+                           states=states, cities=cities, id=id)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
