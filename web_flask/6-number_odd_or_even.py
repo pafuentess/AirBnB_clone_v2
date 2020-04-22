@@ -33,25 +33,22 @@ def python_text(text="is cool"):
     return ("Python {}".format(check_text))
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def is_int(n):
     """ doc """
-    if "." not in n:
-        return ("{} is number".format(n))
+    return ("{} is a number".format(n))
 
 
-@app.route('/number_template/<n>', strict_slashes=False)
+@app.route('/number_template/<int:n>', strict_slashes=False)
 def display_html(n):
     """ doc """
-    if "." not in n:
-        return (render_template("5-number.html", n=n))
+    return (render_template("5-number.html", n=n))
 
 
-@app.route('/number_odd_or_even/<n>', strict_slashes=False)
+@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def odd_even(n):
     """ doc """
-    if "." not in n:
-        return (render_template("6-number_odd_or_even.html", n=int(n)))
+    return (render_template("6-number_odd_or_even.html", n=n))
 
 
 if __name__ == '__main__':
